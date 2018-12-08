@@ -1,0 +1,26 @@
+{
+  "name": "nodejs-winrm",
+  "version": "1.0.0",
+  "description": "Winrm implementation in NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "test": "node ./test/test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shoneslab/nodejs-winrm.git"
+  },
+  "keywords": [
+    "winrm"
+  ],
+  "author": "Shone Jacob",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shoneslab/nodejs-winrm/issues"
+  },
+  "homepage": "https://github.com/shoneslab/nodejs-winrm#readme",
+  "dependencies": {
+    "uuid": "^3.3.2",
+    "js2xmlparser": "^3.0.0"
+  }
+}
