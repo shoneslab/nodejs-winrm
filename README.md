@@ -1,6 +1,7 @@
 # nodejs-winrm
 
 [![npm version](https://badge.fury.io/js/nodejs-winrm.svg)](https://badge.fury.io/js/nodejs-winrm)
+[![Build Status](https://travis-ci.org/shoneslab/nodejs-winrm.svg?branch=master](https://travis-ci.org/shoneslab/nodejs-winrm)
 
 nodejs-winrm is a NodeJS client to access WinRM (Windows Remote Management) SOAP web service. It allows to execute commands on target windows machines.
 Please visit [Microsoft's WinRM site](http://msdn.microsoft.com/en-us/library/aa384426.aspx) for WINRM details.
