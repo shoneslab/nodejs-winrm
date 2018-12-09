@@ -1,4 +1,3 @@
-
 const http = require('http');
 const xml2jsparser = require('xml2js').parseString;
 
@@ -17,8 +16,7 @@ module.exports.sendHttp = async function (_data, _host, _port, _path, _auth) {
             'Content-Length': xmlRequest.length
         },
     };
-    console.log(options)
-    console.log(xmlRequest)
+
     return new Promise((resolve, reject) => {
         var req = http.request(options, (res) => {
             if (res.statusCode < 200 || res.statusCode > 299) {

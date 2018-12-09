@@ -3,7 +3,7 @@ const uuidv5 = require('uuid/v5');
 module.exports.getSoapHeaderRequest = function (_params) {
     if (!_params['message_id']) _params['message_id'] = uuidv5.URL;
     if (!_params['resource_uri']) _params['resource_uri'] = null;
-    
+
     var header = {
         "@": {
             "xmlns:s": "http://www.w3.org/2003/05/soap-envelope",

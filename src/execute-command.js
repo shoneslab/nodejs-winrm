@@ -42,14 +42,10 @@ function constructRunCommandRequest(_params) {
 }
 
 
-module.export.doExecuteCommand = async function (_params) {
-    console.log("In doExecuteCommand()..STARTS")
+module.exports.doExecuteCommand = async function (_params) {
     var req = constructRunCommandRequest(_params);
-    console.log(".....RUN COMMAND REQUEST........",req);
 
     var result = await winrm_http_req.sendHttp(req, _params.host, _params.port, _params.path, _params.auth);
-    console.log(".....RUN COMMAND RESULT.......: ", result)
-
 
     if (result['s:Envelope']['s:Body'][0]['s:Fault']) {
         return new Error(result['s:Envelope']['s:Body'][0]['s:Fault'][0]['s:Code'][0]['s:Subcode'][0]['s:Value'][0]);

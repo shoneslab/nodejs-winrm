@@ -1,6 +1,6 @@
 const js2xmlparser = require('js2xmlparser');
-let winrm_soap_req = require('./base-request.js') 
-let winrm_http_req = require('./http.js') 
+let winrm_soap_req = require('./base-request.js');
+let winrm_http_req = require('./http.js');
 
 function constructCreateShellRequest(_params) {
     var res = winrm_soap_req.getSoapHeaderRequest({
@@ -34,12 +34,9 @@ function constructCreateShellRequest(_params) {
 }
 
 module.exports.doCreateShell = async function (_params) {
-    console.log("In doCreateShell()..STARTS")
     var req = constructCreateShellRequest(_params);
-    console.log(req);
 
     var result = await winrm_http_req.sendHttp(req, _params.host, _params.port, _params.path, _params.auth);
-    console.log("SHELL RESULT: ", result)
 
     if (result['s:Envelope']['s:Body'][0]['s:Fault']) {
         return new Error(result['s:Envelope']['s:Body'][0]['s:Fault'][0]['s:Code'][0]['s:Subcode'][0]['s:Value'][0]);

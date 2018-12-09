@@ -1,6 +1,6 @@
 const js2xmlparser = require('js2xmlparser');
-let winrm_soap_req = require('./base-request.js') 
-let winrm_http_req = require('./http.js') 
+let winrm_soap_req = require('./base-request.js');
+let winrm_http_req = require('./http.js');
 
 function constructDeleteShellRequest(_params) {
     var res = winrm_soap_req.getSoapHeaderRequest({
@@ -17,18 +17,15 @@ function constructDeleteShellRequest(_params) {
             "#": _params.shellId
         }]
     });
-    res['s:Body'] = { };
+    res['s:Body'] = {};
     return js2xmlparser.parse('s:Envelope', res);
 
 }
 
 module.exports.doDeleteShell = async function (_params) {
-    console.log("In doReceiveOutput()..STARTS")
     var req = constructDeleteShellRequest(_params);
-    console.log("doReceiveOutput REQUEST....: ",req);
 
     var result = await winrm_http_req.sendHttp(req, _params.host, _params.port, _params.path, _params.auth);
-    console.log("doReceiveOutput RESULT: ", result)
 
     if (result['s:Envelope']['s:Body'][0]['s:Fault']) {
         return new Error(result['s:Envelope']['s:Body'][0]['s:Fault'][0]['s:Code'][0]['s:Subcode'][0]['s:Value'][0]);
