@@ -21,6 +21,7 @@
   "homepage": "https://github.com/shoneslab/nodejs-winrm#readme",
   "dependencies": {
     "uuid": "^3.3.2",
-    "js2xmlparser": "^3.0.0"
+    "js2xmlparser": "^3.0.0",
+    "xml2js": "^0.4.19"
   }
 }
