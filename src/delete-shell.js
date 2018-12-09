@@ -1,6 +1,6 @@
 const js2xmlparser = require('js2xmlparser');
-let winrm_soap_req = request('./base-request.js') 
-let winrm_http_req = request('./http.js') 
+let winrm_soap_req = require('./base-request.js') 
+let winrm_http_req = require('./http.js') 
 
 function constructDeleteShellRequest(_params) {
     var res = winrm_soap_req.getSoapHeaderRequest({
@@ -14,7 +14,7 @@ function constructDeleteShellRequest(_params) {
             "@": {
                 "Name": "ShellId"
             },
-            "#": _params.shellid
+            "#": _params.shellId
         }]
     });
     res['s:Body'] = { };

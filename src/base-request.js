@@ -1,3 +1,5 @@
+const uuidv5 = require('uuid/v5');
+
 module.exports.getSoapHeaderRequest = function (_params) {
     if (!_params['message_id']) _params['message_id'] = uuidv5.URL;
     if (!_params['resource_uri']) _params['resource_uri'] = null;
@@ -18,7 +20,7 @@ module.exports.getSoapHeaderRequest = function (_params) {
                 "@": {
                     "mustUnderstand": "true"
                 },
-                "#": _params['resource_uri']
+                "#": "http://schemas.microsoft.com/wbem/wsman/1/windows/shell/cmd"
             },
             "wsa:ReplyTo": {
                 "wsa:Address": {
