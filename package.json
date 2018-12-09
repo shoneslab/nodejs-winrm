@@ -1,7 +1,7 @@
 {
   "name": "nodejs-winrm",
   "version": "1.0.0",
-  "description": "Winrm implementation in NodeJS",
+  "description": "Make WinRM service calls from NodeJS",
   "main": "index.js",
   "scripts": {
     "test": "node ./test/test.js"

@@ -22,7 +22,10 @@ On the client side where NodeJS is installed
 `npm install nodejs-winrm`
 
 ## Example
-`winrm.shell('mkdir D:\\winrmtest001', '10.xxx.xxx.xxx', 5985, '/wsman', 'username', password);`
+```
+var winrm = require('nodejs-winrm');
+winrm.shell('mkdir D:\\winrmtest001', '10.xxx.xxx.xxx', 5985, 'username', 'password');
+```
 
 ## Maintainers
 * Shone Jacob (https://github.com/shoneslab)

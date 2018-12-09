@@ -8,7 +8,7 @@ async function shell(_command, _host, _port, _path, _username, _password) {
     var params = {
         host: _host,
         port: _port,
-        path: _path,
+        path: '/wsman',
     };
     params['auth'] = auth;
     var shellId = await winrm_create_shell.doCreateShell(params);
