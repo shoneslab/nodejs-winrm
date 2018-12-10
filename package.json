@@ -14,7 +14,7 @@
     "winrm"
   ],
   "author": "Shone Jacob",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/shoneslab/nodejs-winrm/issues"
   },
