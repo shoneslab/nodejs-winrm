@@ -27,7 +27,6 @@ function constructReceiveOutputRequest(_params) {
         }
     };
     return js2xmlparser.parse('s:Envelope', res);
-
 }
 
 module.exports.doReceiveOutput = async function (_params) {
@@ -38,7 +37,12 @@ module.exports.doReceiveOutput = async function (_params) {
     if (result['s:Envelope']['s:Body'][0]['s:Fault']) {
         return new Error(result['s:Envelope']['s:Body'][0]['s:Fault'][0]['s:Code'][0]['s:Subcode'][0]['s:Value'][0]);
     } else {
-        var output = result['s:Envelope']['s:Body'][0]['rsp:ReceiveResponse'][0]['rsp:Stream'];
+        var output = '';
+        for (let stream of result['s:Envelope']['s:Body'][0]['rsp:ReceiveResponse'][0]['rsp:Stream']) {
+            if (stream['$'].Name == 'stdout' && !stream['$'].hasOwnProperty('End')) {
+                output += new Buffer(stream['_'], 'base64').toString('ascii');
+            }
+        }
         return output;
     }
 }

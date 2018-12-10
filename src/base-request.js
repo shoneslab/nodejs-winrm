@@ -2,7 +2,6 @@ const uuidv5 = require('uuid/v5');
 
 module.exports.getSoapHeaderRequest = function (_params) {
     if (!_params['message_id']) _params['message_id'] = uuidv5.URL;
-    if (!_params['resource_uri']) _params['resource_uri'] = null;
 
     var header = {
         "@": {

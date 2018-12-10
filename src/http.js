@@ -13,7 +13,7 @@ module.exports.sendHttp = async function (_data, _host, _port, _path, _auth) {
             'Authorization': _auth,
             'Content-Type': 'application/soap+xml;charset=UTF-8',
             'User-Agent': 'NodeJS WinRM Client',
-            'Content-Length': xmlRequest.length
+            'Content-Length': Buffer.byteLength(xmlRequest)
         },
     };
 
@@ -23,15 +23,18 @@ module.exports.sendHttp = async function (_data, _host, _port, _path, _auth) {
                 reject(new Error('Failed to process the request, status Code: ', res.statusCode));
             }
             res.setEncoding('utf8');
-            res.on('data', (data) => {
-                console.log(data);
-                xml2jsparser(data, (err, result) => {
+            var dataBuffer = '';
+            res.on('data', (chunk) => {
+                dataBuffer += chunk;
+
+            });
+            res.on('end', () => {
+                xml2jsparser(dataBuffer, (err, result) => {
                     if (err) {
-                        reject(new Error('Data Parsing error'))
+                        reject(new Error('Data Parsing error', err))
                     }
                     resolve(result);
                 });
-
             });
 
         });
@@ -43,5 +46,6 @@ module.exports.sendHttp = async function (_data, _host, _port, _path, _auth) {
             req.write(xmlRequest);
         }
         req.end();
+        
     });
 }
