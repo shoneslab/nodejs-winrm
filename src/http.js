@@ -2,7 +2,6 @@ const http = require('http');
 const xml2jsparser = require('xml2js').parseString;
 
 module.exports.sendHttp = async function (_data, _host, _port, _path, _auth) {
-    console.log("In sendHttp()..STARTS")
     var xmlRequest = _data;
     var options = {
         host: _host,

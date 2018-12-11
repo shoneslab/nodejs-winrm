@@ -10,6 +10,8 @@ Please visit [Microsoft's WinRM site](http://msdn.microsoft.com/en-us/library/aa
 
 ## Supported WinRM Versions
 
+As of now Winrm Version 1 is tested.
+
 ## Install
 
 On the remote host, a PowerShell prompt, using the __Run as Administrator__ option and paste in the following lines:
@@ -29,7 +31,11 @@ On the client side where NodeJS is installed
 ```
 var winrm = require('nodejs-winrm');
 winrm.shell('mkdir D:\\winrmtest001', '10.xxx.xxx.xxx', 5985, 'username', 'password');
+winrm.shell('ipconfig /all', '10.xxx.xxx.xxx', 5985, 'username', 'password');
 ```
+## Testing
+
+`npm test`
 
 ## Maintainers
 * Shone Jacob (https://github.com/shoneslab)

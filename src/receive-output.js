@@ -37,12 +37,18 @@ module.exports.doReceiveOutput = async function (_params) {
     if (result['s:Envelope']['s:Body'][0]['s:Fault']) {
         return new Error(result['s:Envelope']['s:Body'][0]['s:Fault'][0]['s:Code'][0]['s:Subcode'][0]['s:Value'][0]);
     } else {
-        var output = '';
+        var successOutput = '', failedOutput = '';
         for (let stream of result['s:Envelope']['s:Body'][0]['rsp:ReceiveResponse'][0]['rsp:Stream']) {
             if (stream['$'].Name == 'stdout' && !stream['$'].hasOwnProperty('End')) {
-                output += new Buffer(stream['_'], 'base64').toString('ascii');
+                successOutput += new Buffer(stream['_'], 'base64').toString('ascii');
+            }
+            if (stream['$'].Name == 'stderr' && !stream['$'].hasOwnProperty('End')) {
+                failedOutput += new Buffer(stream['_'], 'base64').toString('ascii');
             }
         }
-        return output;
+        if(successOutput){
+            return successOutput;
+        }
+        return failedOutput;
     }
 }
