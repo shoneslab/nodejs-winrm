@@ -30,7 +30,7 @@ module.exports.sendHttp = async function (_data, _host, _port, _path, _auth) {
             res.on('end', () => {
                 xml2jsparser(dataBuffer, (err, result) => {
                     if (err) {
-                        reject(new Error('Data Parsing error', err))
+                        reject(new Error('Data Parsing error', err));
                     }
                     resolve(result);
                 });
@@ -38,7 +38,7 @@ module.exports.sendHttp = async function (_data, _host, _port, _path, _auth) {
 
         });
         req.on('error', (err) => {
-            console.log("error", err)
+            console.log('error', err);
             reject(err);
         });
         if (xmlRequest) {
@@ -47,4 +47,4 @@ module.exports.sendHttp = async function (_data, _host, _port, _path, _auth) {
         req.end();
         
     });
-}
+};

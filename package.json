@@ -1,10 +1,12 @@
 {
   "name": "nodejs-winrm",
-  "version": "1.0.4",
+  "version": "1.1.0",
   "description": "Make WinRM service calls from NodeJS",
   "main": "index.js",
   "scripts": {
-    "test": "node ./test/test.js"
+    "test": "node ./test/test.js",
+    "outdated": "npm outdated --json || true",
+    "lint": "npx eslint ."
   },
   "repository": {
     "type": "git",
@@ -23,5 +25,8 @@
     "uuid": "^3.3.2",
     "js2xmlparser": "^3.0.0",
     "xml2js": "^0.4.19"
+  },
+  "devDependencies": {
+    "eslint": "^5.10.0"
   }
 }

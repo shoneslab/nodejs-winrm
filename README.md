@@ -30,8 +30,8 @@ On the client side where NodeJS is installed
 ## Example
 ```
 var winrm = require('nodejs-winrm');
-winrm.shell('mkdir D:\\winrmtest001', '10.xxx.xxx.xxx', 5985, 'username', 'password');
-winrm.shell('ipconfig /all', '10.xxx.xxx.xxx', 5985, 'username', 'password');
+winrm.runCommand('mkdir D:\\winrmtest001', '10.xxx.xxx.xxx', 5985, 'username', 'password');
+winrm.runCommand('ipconfig /all', '10.xxx.xxx.xxx', 5985, 'username', 'password');
 ```
 ## Testing
 

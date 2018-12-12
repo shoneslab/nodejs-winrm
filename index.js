@@ -1,9 +1,12 @@
-let winrm_create_shell = require('./src/create-shell.js');
-let winrm_execute_cmd = require('./src/execute-command.js');
-let winrm_receive_output = require('./src/receive-output.js');
-let winrm_delete_shell = require('./src/delete-shell.js');
+let shell = require('./src/shell.js');
+let command = require('./src/command.js');
 
-async function shell(_command, _host, _port, _username, _password) {
+module.exports = {
+    shell: shell,
+    command: command
+};
+
+module.exports.runCommand = async function (_command, _host, _username, _password, _port) {
     try {
         var auth = 'Basic ' + Buffer.from(_username + ':' + _password, 'utf8').toString('base64');
         var params = {
@@ -12,25 +15,22 @@ async function shell(_command, _host, _port, _username, _password) {
             path: '/wsman',
         };
         params['auth'] = auth;
-        var shellId = await winrm_create_shell.doCreateShell(params);
+        var shellId = await shell.doCreateShell(params);
         params['shellId'] = shellId;
     
         params['command'] = _command;
-        var commandId = await winrm_execute_cmd.doExecuteCommand(params);
+        var commandId = await command.doExecuteCommand(params);
     
         params['commandId'] = commandId;
-        var output = await winrm_receive_output.doReceiveOutput(params);
+        var output = await command.doReceiveOutput(params);
     
-        await winrm_delete_shell.doDeleteShell(params);
+        await shell.doDeleteShell(params);
     
-        return output
+        return output;
     } catch (error) {
         console.log('error', error);
         return error;
     }   
    
-}
-
-module.exports = {
-    shell: shell
 };
+
