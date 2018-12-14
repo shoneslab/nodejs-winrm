@@ -15,7 +15,7 @@ module.exports.sendHttp = async function (_data, _host, _port, _path, _auth) {
             'Content-Length': Buffer.byteLength(xmlRequest)
         },
     };
-
+    //var http = params.protocol == 'https' ? require('https') : require('http');
     return new Promise((resolve, reject) => {
         var req = http.request(options, (res) => {
             if (res.statusCode < 200 || res.statusCode > 299) {

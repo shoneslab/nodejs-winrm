@@ -1,6 +1,6 @@
 const js2xmlparser = require('js2xmlparser');
-let winrm_soap_req = require('./base-request.js'); 
-let winrm_http_req = require('./http.js'); 
+let winrm_soap_req = require('./base-request.js');
+let winrm_http_req = require('./http.js');
 
 function constructRunCommandRequest(_params) {
     var res = winrm_soap_req.getSoapHeaderRequest({
@@ -23,15 +23,6 @@ function constructRunCommandRequest(_params) {
             }
         ]
     });
-    res['s:Header']['wsman:SelectorSet'] = [];
-    res['s:Header']['wsman:SelectorSet'].push({
-        'wsman:Selector': [{
-            '@': {
-                'Name': 'ShellId'
-            },
-            '#': _params.shellId
-        }]
-    });
     res['s:Body'] = {
         'rsp:CommandLine': {
             'rsp:Command': _params.command
@@ -45,15 +36,6 @@ function constructReceiveOutputRequest(_params) {
         'action': 'http://schemas.microsoft.com/wbem/wsman/1/windows/shell/Receive'
     });
 
-    res['s:Header']['wsman:SelectorSet'] = [];
-    res['s:Header']['wsman:SelectorSet'].push({
-        'wsman:Selector': [{
-            '@': {
-                'Name': 'ShellId'
-            },
-            '#': _params.shellId
-        }]
-    });
     res['s:Body'] = {
         'rsp:Receive': {
             'rsp:DesiredStream': {
@@ -80,6 +62,27 @@ module.exports.doExecuteCommand = async function (_params) {
     }
 };
 
+function generatePowershellCommand(_params) {
+    var args = [];
+    args.unshift(
+        'powershell.exe',
+        '-NoProfile',
+        '-NonInteractive',
+        '-NoLogo',
+        '-ExecutionPolicy', 'Bypass',
+        '-InputFormat', 'Text',
+        '-Command', '"& {',
+        _params.command,
+        '}"'
+    );
+    return args.join(' ');
+}
+
+module.exports.doExecutePowershell = async function (_params) {
+    _params['command'] = generatePowershellCommand(_params);
+    this.doExecuteCommand(_params);
+};
+
 module.exports.doReceiveOutput = async function (_params) {
     var req = constructReceiveOutputRequest(_params);
 
@@ -88,18 +91,21 @@ module.exports.doReceiveOutput = async function (_params) {
     if (result['s:Envelope']['s:Body'][0]['s:Fault']) {
         return new Error(result['s:Envelope']['s:Body'][0]['s:Fault'][0]['s:Code'][0]['s:Subcode'][0]['s:Value'][0]);
     } else {
-        var successOutput = '', failedOutput = '';
-        for (let stream of result['s:Envelope']['s:Body'][0]['rsp:ReceiveResponse'][0]['rsp:Stream']) {
-            if (stream['$'].Name == 'stdout' && !stream['$'].hasOwnProperty('End')) {
-                successOutput += new Buffer(stream['_'], 'base64').toString('ascii');
-            }
-            if (stream['$'].Name == 'stderr' && !stream['$'].hasOwnProperty('End')) {
-                failedOutput += new Buffer(stream['_'], 'base64').toString('ascii');
+        var successOutput = '',
+            failedOutput = '';
+        if (result['s:Envelope']['s:Body'][0]['rsp:ReceiveResponse'][0]['rsp:Stream']) {
+            for (let stream of result['s:Envelope']['s:Body'][0]['rsp:ReceiveResponse'][0]['rsp:Stream']) {
+                if (stream['$'].Name == 'stdout' && !stream['$'].hasOwnProperty('End')) {
+                    successOutput += new Buffer(stream['_'], 'base64').toString('ascii');
+                }
+                if (stream['$'].Name == 'stderr' && !stream['$'].hasOwnProperty('End')) {
+                    failedOutput += new Buffer(stream['_'], 'base64').toString('ascii');
+                }
             }
         }
-        if(successOutput){
-            return successOutput;
+        if (successOutput) {
+            return successOutput.trim();
         }
-        return failedOutput;
+        return failedOutput.trim();
     }
 };

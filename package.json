@@ -1,12 +1,15 @@
 {
   "name": "nodejs-winrm",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Make WinRM service calls from NodeJS",
   "main": "index.js",
   "scripts": {
     "test": "node ./test/test.js",
     "outdated": "npm outdated --json || true",
-    "lint": "npx eslint ."
+    "lint": "npx eslint .",
+    "jest:test": "jest",
+    "jest:coverage": "npx jest --coverage",
+    "jest:watch": "jest --watch"
   },
   "repository": {
     "type": "git",
@@ -21,12 +24,29 @@
     "url": "https://github.com/shoneslab/nodejs-winrm/issues"
   },
   "homepage": "https://github.com/shoneslab/nodejs-winrm#readme",
+  "jest": {
+    "automock": false,
+    "coveragePathIgnorePatterns": [],
+    "verbose": true,
+    "coverageReporters": [
+      "html",
+      "lcov",
+      "json",
+      "text",
+      "text-summary"
+    ],
+    "testMatch": [
+      "<rootDir>/test/*.unit.spec.js",
+      "<rootDir>/__tests__/*.unit.spec.js"
+    ]
+  },
   "dependencies": {
     "uuid": "^3.3.2",
     "js2xmlparser": "^3.0.0",
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
-    "eslint": "^5.10.0"
+    "eslint": "^5.10.0",
+    "jest": "^23.6.0"
   }
 }

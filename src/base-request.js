@@ -51,6 +51,17 @@ module.exports.getSoapHeaderRequest = function (_params) {
             }
         },
     };
+    if (_params['shellId']) {
+        header['s:Header']['wsman:SelectorSet'] = [];
+        header['s:Header']['wsman:SelectorSet'].push({
+            'wsman:Selector': [{
+                '@': {
+                    'Name': 'ShellId'
+                },
+                '#': _params.shellId
+            }]
+        });
+    }
 
     return header;
 };
