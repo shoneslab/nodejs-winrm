@@ -58,7 +58,7 @@ module.exports.getSoapHeaderRequest = function (_params) {
                 '@': {
                     'Name': 'ShellId'
                 },
-                '#': _params.shellId
+                '#': _params['shellId']
             }]
         });
     }

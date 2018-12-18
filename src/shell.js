@@ -33,10 +33,11 @@ function constructCreateShellRequest() {
 
 }
 
-function constructDeleteShellRequest() {
+function constructDeleteShellRequest(_params) {
     var res = winrm_soap_req.getSoapHeaderRequest({
         'resource_uri': 'http://schemas.microsoft.com/wbem/wsman/1/windows/shell/cmd',
-        'action': 'http://schemas.xmlsoap.org/ws/2004/09/transfer/Delete'
+        'action': 'http://schemas.xmlsoap.org/ws/2004/09/transfer/Delete',
+        'shellId': _params.shellId
     });
 
     res['s:Body'] = {};
@@ -58,7 +59,7 @@ module.exports.doCreateShell = async function (_params) {
 };
 
 module.exports.doDeleteShell = async function (_params) {
-    var req = constructDeleteShellRequest();
+    var req = constructDeleteShellRequest(_params);
 
     var result = await winrm_http_req.sendHttp(req, _params.host, _params.port, _params.path, _params.auth);
 
