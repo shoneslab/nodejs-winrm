@@ -8,7 +8,7 @@ Please visit [Microsoft's WinRM site](http://msdn.microsoft.com/en-us/library/aa
 
 ## Supported NodeJS Versions
 
-NodeJS Version > 8.11
+Tested on NodeJS Version > 8.11
 
 ## Supported WinRM Versions
 
@@ -43,8 +43,8 @@ On the client side where NodeJS is installed
 ### Run a Single Command 
 ```
 var winrm = require('nodejs-winrm');
-winrm.runCommand('mkdir D:\\winrmtest001', '10.xxx.xxx.xxx', 5985, 'username', 'password');
-winrm.runCommand('ipconfig /all', '10.xxx.xxx.xxx', 5985, 'username', 'password');
+winrm.runCommand('mkdir D:\\winrmtest001', '10.xxx.xxx.xxx', 'username', 'password', 5985);
+winrm.runCommand('ipconfig /all', '10.xxx.xxx.xxx', 'username', 'password', 5985);
 ```
 ### Run multiple Commands (Advanced)
 ```
