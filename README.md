@@ -56,7 +56,7 @@ var password = 'password';
 var _host = '10.xxx.xxx.xxx';
 var _port = 5985;
 
-var auth = 'Basic' + Buffer.from(userName + ":" + password, 'utf8').toString('base64');
+var auth = 'Basic ' + Buffer.from(userName + ":" + password, 'utf8').toString('base64');
 var params = {
     host: _host,
     port: _port,
@@ -68,7 +68,7 @@ params['auth'] = auth;
 params['shellId']= await winrm.shell.doCreateShell(params);
 
 // Execute Command1
-params['command'] = 'ipaddress /all';
+params['command'] = 'ipconfig /all';
 params['commandId'] = await winrm.command.doExecuteCommand(params);
 var result1= await winrm.command.doReceiveOutput(params);
 
