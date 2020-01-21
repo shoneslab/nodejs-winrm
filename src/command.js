@@ -82,7 +82,7 @@ function generatePowershellCommand(_params) {
 
 module.exports.doExecutePowershell = async function (_params) {
     _params['command'] = generatePowershellCommand(_params);
-    this.doExecuteCommand(_params);
+    return this.doExecuteCommand(_params);
 };
 
 module.exports.doReceiveOutput = async function (_params) {
