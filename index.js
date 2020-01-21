@@ -6,7 +6,7 @@ module.exports = {
     command: command
 };
 
-module.exports.runCommand = async function (_command, _host, _username, _password, _port) {
+module.exports.runCommand = async function (_command, _host, _username, _password, _port, _usePowershell = false) {
     try {
         var auth = 'Basic ' + Buffer.from(_username + ':' + _password, 'utf8').toString('base64');
         var params = {
@@ -19,7 +19,12 @@ module.exports.runCommand = async function (_command, _host, _username, _passwor
         params['shellId'] = shellId;
     
         params['command'] = _command;
-        var commandId = await command.doExecuteCommand(params);
+        var commandId
+        if ( _usePowershell ) {
+            commandId = await command.doExecutePowershell(params);
+        } else {
+            commandId = await command.doExecuteCommand(params);
+        }
     
         params['commandId'] = commandId;
         var output = await command.doReceiveOutput(params);
@@ -34,3 +39,6 @@ module.exports.runCommand = async function (_command, _host, _username, _passwor
    
 };
 
+module.exports.runPowershell = async function (_command, _host, _username, _password, _port) {
+  return module.exports.runCommand(_command, _host, _username, _password, _port, true);
+}

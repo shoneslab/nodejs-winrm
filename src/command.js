@@ -82,7 +82,7 @@ function generatePowershellCommand(_params) {
 
 module.exports.doExecutePowershell = async function (_params) {
     _params['command'] = generatePowershellCommand(_params);
-    this.doExecuteCommand(_params);
+    return this.doExecuteCommand(_params);
 };
 
 module.exports.doReceiveOutput = async function (_params) {
@@ -98,10 +98,10 @@ module.exports.doReceiveOutput = async function (_params) {
         if (result['s:Envelope']['s:Body'][0]['rsp:ReceiveResponse'][0]['rsp:Stream']) {
             for (let stream of result['s:Envelope']['s:Body'][0]['rsp:ReceiveResponse'][0]['rsp:Stream']) {
                 if (stream['$'].Name == 'stdout' && !stream['$'].hasOwnProperty('End')) {
-                    successOutput += new Buffer(stream['_'], 'base64').toString('ascii');
+                    successOutput += Buffer.from(stream['_'], 'base64').toString('ascii');
                 }
                 if (stream['$'].Name == 'stderr' && !stream['$'].hasOwnProperty('End')) {
-                    failedOutput += new Buffer(stream['_'], 'base64').toString('ascii');
+                    failedOutput += Buffer.from(stream['_'], 'base64').toString('ascii');
                 }
             }
         }
