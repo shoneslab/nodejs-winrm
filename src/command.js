@@ -98,10 +98,10 @@ module.exports.doReceiveOutput = async function (_params) {
         if (result['s:Envelope']['s:Body'][0]['rsp:ReceiveResponse'][0]['rsp:Stream']) {
             for (let stream of result['s:Envelope']['s:Body'][0]['rsp:ReceiveResponse'][0]['rsp:Stream']) {
                 if (stream['$'].Name == 'stdout' && !stream['$'].hasOwnProperty('End')) {
-                    successOutput += Buffer.from(stream['_'], 'base64').toString('ascii');
+                    successOutput += Buffer.from(stream['_'], 'base64').toString();
                 }
                 if (stream['$'].Name == 'stderr' && !stream['$'].hasOwnProperty('End')) {
-                    failedOutput += Buffer.from(stream['_'], 'base64').toString('ascii');
+                    failedOutput += Buffer.from(stream['_'], 'base64').toString();
                 }
             }
         }
